@@ -17,6 +17,8 @@ public class Matrix{
 	public Matrix Add(Matrix x){
 		return new Matrix(op.MatAdd(matrix, x.matrix));
 	}
-
+	public Vector MultiplyVector(Vector x){
+		return new Vector(op.VecMatDot(matrix, x.vector)); //TODO
+	}
 	
 }

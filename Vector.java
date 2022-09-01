@@ -6,7 +6,11 @@ public class Vector{
 		this.vector = vec;
 	}
 
-	public void Add(Vector vec){
+	public Vector Add(Vector vec){
 		return new Vector(op.VecAdd(vector, vec.vector));
+	}
+
+	public Vector MatDot(Matrix mat){
+		return new Vector(op.VecMatDot(mat.matrix, vector));
 	}
 }

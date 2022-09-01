@@ -15,12 +15,12 @@ public class MatrixOperation{
 		return ret;
 	}
 
-	double[] VecMatDot(double[] a, double[][] b){
+	double[] MatVecDot(double[] a, double[][] b){ //TODO
 		double[] ret = new double[a.length];
 		for(int i = 0; i < a.length; i++){
 			int temp = 0;
 			for(int j = 0; j < b[i].length; j++){
-				temp += a[i] * a[i][j];
+				temp += a[i] * b[i][j];
 			}
 			ret[i] = temp;
 		}
@@ -68,6 +68,16 @@ public class MatrixOperation{
 			}
 		}
 
+		return ret;
+	}
+
+	double[] VecMatDot(double[][] a, double[] b){
+		double[] ret = new double[a[0].length];
+		for(int i = 0; i < b.length; i++){
+			for(int j = 0; j < a[0].length; j++){
+				ret[j] += a[j][i] * b[i];
+			}
+		}
 		return ret;
 	}
 }
