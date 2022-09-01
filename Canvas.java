@@ -1,9 +1,12 @@
+import java.io.*;
+
 public class Canvas {
 	public static int length = 20;
 	public static int width = 40;
 	public static int[][] canvas = new int[length][width];
 	public static String[] colorMap = { ".", "o", "#", "@" };
-
+	private static PrintWriter pw = new PrintWriter(System.out);
+	
 	public static void render() {
 		for (int i = 0; i < length; i++) {
 			for (int j = 0; j < width; j++) {
