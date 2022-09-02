@@ -1,8 +1,12 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class Main3d {
+public class MainJFrame {
     public static void main(String[] args) {
+        JFrame frame = new JFrame("Rotating Cube");
+        JPanel panel = new JPanel();
+        panel.setBounds(0, 0, 100, 50);
+
         Canvas c = new Canvas();
         double [] d = {0, 0, 1};
         Vector p1 = new Vector(d);
@@ -26,16 +30,16 @@ public class Main3d {
         Camera cam = new Camera(new ProjectionMatrix(right, left, top, bottom, far, near));
 
         double[] center = {65, 65, 65, 1};
-        double[][] points = {{90, 90, 90, 1},//z is depth
-                            {40, 90, 90, 1},
-                            {40, 90, 40, 1},
-                            {90, 90, 40, 1},
-                            {90, 40, 40, 1},
-                            {90, 40, 90, 1},
-                            {40, 40, 90, 1},
-                            {40, 40, 40, 1}};
+        double[][] points = {{90, 40, 40, 1},//z is depth
+                {90, 40, 90, 1},
+                {40, 40, 90, 1},
+                {40, 40, 40, 1},
+                {90, 90, 40, 1},
+                {90, 90, 90, 1},
+                {40, 90, 90, 1},
+                {40, 90, 40, 1}};
 
-        int[] indices = {0, 1, 2, 3, 0, 5, 6, 1, 6, 7, 2, 7, 4, 3, 4, 5};
+        int[] indices = {0, 1, 2, 3, 4, 5, 6, 7};
 
         //Vector projected = cam.ProjectPoint(new Vector(p));
 
@@ -88,11 +92,10 @@ public class Main3d {
             c.render();
             c.clear();
 
-            for(int j = 0; j < indices.length-1; j++) {
+            for(int j = 0; j < indices.length; j++) {
                 int i = indices[j];
-                int i1 = indices[j+1];
                 Vector projected1 = cam.ProjectPoint(new Vector(points[i]));
-                Vector projected2 = cam.ProjectPoint(new Vector(points[i1]));
+                Vector projected2 = cam.ProjectPoint(new Vector(points[(i+1)%points.length]));
                 int x1 = (int) (projected1.vector[0] * 50);
                 int y1 = (int) (projected1.vector[1] * 50);
 
