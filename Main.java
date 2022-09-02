@@ -35,8 +35,8 @@ public class Main {
 
 		while(true){
 			//System.out.print(linebreak);
-			//System.out.print("\r" + linebreak + "\r");
-			System.out.println();
+			System.out.print(linebreak);
+			//System.out.println();
 			c.render();
 			c.clear();
 
@@ -46,6 +46,11 @@ public class Main {
 
 			for(int i = 0; i < verts.length; i++){
 				verts[i] = (new Vector(verts[i])).MatDot(transform).vector;
+			}
+			try{
+				Thread.sleep(10);
+			} catch(Exception e){
+
 			}
 		}
 	}

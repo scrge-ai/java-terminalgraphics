@@ -8,7 +8,8 @@ public class Camera{
 		this.pos = new Vector(posarr);
 		double[] rotarr = {0, 0, 0, 1};
 		this.rot = new Vector(rotarr);
-		this.projection = projection;
+		this.projection = proj;
+		UpdateViewMatrix();
 	}
 
 	public void UpdateViewMatrix(){
@@ -46,5 +47,9 @@ public class Camera{
 		Matrix rollMat = new Matrix(rollarr);
 
 		this.view = transMat.Multiply(yawMat).Multiply(pitchMat).Multiply(rollMat);
+	}
+
+	public Vector ProjectPoint(Vector point){
+		return point.MatDot(view.Multiply(projection));
 	}
 }
