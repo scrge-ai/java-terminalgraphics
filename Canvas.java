@@ -2,7 +2,7 @@ import java.io.*;
 
 public class Canvas {
 	public static int length = 50;
-	public static int width = 50;
+	public static int width = 100;
 	public static int[][] canvas = new int[length][width];
 	public static String[] colorMap = { " ", "o", "#", "@" };
 	private static PrintWriter pw = new PrintWriter(System.out);

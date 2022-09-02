@@ -31,7 +31,7 @@ public class Main {
 		Matrix transform = translate1.Multiply(rot).Multiply(translate2);
 
 		String linebreak = "";
-		for(int i = 0; i < 100; i++) linebreak += "\n";
+		for(int i = 0; i < 1000; i++) linebreak += "\n";
 
 		while(true){
 			//System.out.print(linebreak);
