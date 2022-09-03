@@ -13,4 +13,26 @@ public class Vector{
 	public Vector MatDot(Matrix mat){
 		return new Vector(op.VecMatDot(mat.matrix, vector));
 	}
+
+	public double VecDot(Vector vec) { return op.VecVecDot(vec.vector, vector); }
+
+	public double Magnitude() {
+		double ret = 0;
+		for(int i = 0; i < vector.length; i++){
+			ret += vector[i]*vector[i];
+		}
+		return Math.sqrt(ret);
+	}
+	public double Angle(Vector vec){
+		return Math.acos((VecDot(vec))/(Magnitude()*vec.Magnitude()));
+	}
+
+	public Vector Reverse(){
+		Vector ret = new Vector(new  double[vector.length]);
+
+		for(int i = 0; i < vector.length; i++){
+			ret.vector[i] = -vector[i];
+		}
+		return ret;
+	}
 }

@@ -4,7 +4,7 @@ public class Canvas {
 	public static int length = 60;
 	public static int width = 60;
 	public static int[][] canvas = new int[length][width];
-	public static String[] colorMap = { " ", "o", "#", "@" };
+	public static String[] colorMap = { " ", "-", "o", "#", "@" };
 	private static PrintWriter pw = new PrintWriter(System.out);
 	
 	public static void render() {

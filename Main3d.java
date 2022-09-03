@@ -26,16 +26,37 @@ public class Main3d {
         Camera cam = new Camera(new ProjectionMatrix(right, left, top, bottom, far, near));
 
         double[] center = {65, 65, 65, 1};
-        double[][] points = {{90, 90, 90, 1},//z is depth
-                            {40, 90, 90, 1},
-                            {40, 90, 40, 1},
-                            {90, 90, 40, 1},
-                            {90, 40, 40, 1},
-                            {90, 40, 90, 1},
-                            {40, 40, 90, 1},
-                            {40, 40, 40, 1}};
+        double[][] points = {        // front
+                {40, 40,  90},
+                {90, 40,  90},
+                {90,  90,  90},
+                {40,  90,  90},
+                // back
+                {40, 40, 40},
+                {90, 40, 40},
+                {90,  90, 40},
+                {40,  90, 40}
+        };
 
-        int[] indices = {0, 1, 2, 3, 0, 5, 6, 1, 6, 7, 2, 7, 4, 3, 4, 5};
+        int[] indices = {        // front
+                0, 1, 2,
+                2, 3, 0,
+                // right
+                1, 5, 6,
+                6, 2, 1,
+                // back
+                7, 6, 5,
+                5, 4, 7,
+                // left
+                4, 0, 3,
+                3, 7, 4,
+                // bottom
+                4, 5, 1,
+                1, 0, 4,
+                // top
+                3, 2, 6,
+                6, 7, 3
+        };
 
         //Vector projected = cam.ProjectPoint(new Vector(p));
 
@@ -87,6 +108,7 @@ public class Main3d {
         String newframe = "";
         for(int i = 0; i < 100; i++) newframe += "\n";
 
+        PhongRenderer render = new PhongRenderer();
 
         while(true){
             //System.out.print("\r" + newframe + "\r");
@@ -94,6 +116,7 @@ public class Main3d {
             System.out.print(newframe);
             c.render();
             c.clear();
+            //List triangles = new ArrayList<Double[3][2]>();
             for(int j = 0; j < indices.length-1; j++) {
                 int i = indices[j];
                 int i1 = indices[j+1];
@@ -112,6 +135,8 @@ public class Main3d {
 
                 c.drawLine(x1, y1, x2, y2, 3);
             }
+
+            //c = render.RenderTriangles()
 
             for(int i = 0; i < points.length; i++){
                 points[i] = (new Vector(points[i])).MatDot(transform).vector;
