@@ -35,10 +35,10 @@ public class Camera{
 		};
 
 		double[][] rollarr = {
-				{1,                      0,                         0, 0},
-				{0, Math.cos(rot.vector[1]),-Math.sin(rot.vector[1]), 0},
-				{0, Math.sin(rot.vector[1]), Math.cos(rot.vector[1]),  0},
-				{0,                      0,                         0, 0}
+				{Math.cos(rot.vector[1]),-Math.sin(rot.vector[1]), 0, 0},
+				{Math.sin(rot.vector[1]), Math.cos(rot.vector[1]),  0, 0},
+				{0,                      0,                         1, 0},
+				{0,                      0,                         0, 1}
 		};
 
 		Matrix transMat = new Matrix(posarr);

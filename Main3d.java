@@ -67,15 +67,22 @@ public class Main3d {
                 {0,             0,              0,                     1}
         };
 
+        double[][] rollarr = {
+                {Math.cos(0.02),-Math.sin(0.02), 0, 0},
+                {Math.sin(0.02), Math.cos(0.02),  0, 0},
+                {0,                      0,                         1, 0},
+                {0,                      0,                         0, 1}
+        };
+
         double[][] model = {
                 {1, 0, 0, 0},
-                {0, 1, 0, 0},
+                {0, 1, 0, -30},
                 {0, 0, 1, 0},
                 {0, 0, 0, 1}
         };
 
         Matrix modelMatrix = new Matrix(model);
-        Matrix transform = (new Matrix(trans)).Multiply(new Matrix(pitcharr)).Multiply(new Matrix(yawarr)).Multiply(new Matrix(transback));
+        Matrix transform = (new Matrix(trans)).Multiply(new Matrix(pitcharr)).Multiply(new Matrix(yawarr)).Multiply(new Matrix(rollarr)).Multiply(new Matrix(transback));
 
         String newframe = "";
         for(int i = 0; i < 100; i++) newframe += "\n";
@@ -87,12 +94,16 @@ public class Main3d {
             System.out.print(newframe);
             c.render();
             c.clear();
-
             for(int j = 0; j < indices.length-1; j++) {
                 int i = indices[j];
                 int i1 = indices[j+1];
-                Vector projected1 = cam.ProjectPoint(new Vector(points[i]));
-                Vector projected2 = cam.ProjectPoint(new Vector(points[i1]));
+                Vector projected1 = cam.ProjectPoint((new Vector(points[i])).MatDot(modelMatrix));
+                Vector projected2 = cam.ProjectPoint((new Vector(points[i1])).MatDot(modelMatrix));
+                double[] applymodel = (new Vector(points[i])).MatDot(modelMatrix).vector;
+                //System.out.println();
+                //System.out.println("original point: " + points[i][0] + " " + points[i][1] + " " + points[i][2]);
+                //System.out.println("after model matrix: " + applymodel[0] + " " + applymodel[1] + " " + applymodel[2]);
+                //System.out.println("projected point: " + projected1.vector[0] + " " + projected1.vector[1] + " " + projected1.vector[2] + " ");
                 int x1 = (int) (projected1.vector[0] * 50);
                 int y1 = (int) (projected1.vector[1] * 50);
 
