@@ -35,4 +35,12 @@ public class Vector{
 		}
 		return ret;
 	}
+
+	public Vector Normalize(){
+		double[] out = new double[vector.length];
+		for(int i = 0; i < vector.length; i++){
+			out[i] = vector[i]/Magnitude();
+		}
+		return new Vector(out);
+	}
 }

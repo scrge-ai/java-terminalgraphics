@@ -16,8 +16,8 @@ public class Rendertest {
 
         while(true){
             System.out.print(newline);
-            c.render();
-            //c.canvas = render.RenderTriangles(triangles, 60, 60);
+            //c.render();
+            //c.canvas = render.RenderTriangles(triangles, new Vector[1][1], 60, 60, new double[]{0, 0, 0});
         }
     }
 }

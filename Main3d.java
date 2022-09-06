@@ -28,7 +28,7 @@ public class Main3d {
 
         Camera cam = new Camera(new ProjectionMatrix(right, left, top, bottom, far, near));
 
-        double[] center = {65, 65, 65, 1};
+        double[] center = {65, 65, 65};
         double[][] points = {        // front
                 {40, 40,  90},
                 {90, 40,  90},
@@ -91,22 +91,22 @@ public class Main3d {
         };
 
         double[][] pitcharr = {
-                {Math.cos(0.05),  0, Math.sin(0.05), 0},
+                {Math.cos(0.01),  0, Math.sin(0.01), 0},
                 {0,                        1,          0              , 0},
-                {-Math.sin(0.05), 0, Math.cos(0.05),  0},
+                {-Math.sin(0.01), 0, Math.cos(0.01),  0},
                 {0,                        0,          0,               1}
         };
 
         double[][] yawarr = {
                 {1,             0,              0,                     0},
-                {0, Math.cos(0.03), -Math.sin(0.03), 0},
-                {0, Math.sin(0.03),  Math.cos(0.03), 0},
+                {0, Math.cos(0.01), -Math.sin(0.01), 0},
+                {0, Math.sin(0.01),  Math.cos(0.01), 0},
                 {0,             0,              0,                     1}
         };
 
         double[][] rollarr = {
-                {Math.cos(0.02),-Math.sin(0.02), 0, 0},
-                {Math.sin(0.02), Math.cos(0.02),  0, 0},
+                {Math.cos(0.01),-Math.sin(0.01), 0, 0},
+                {Math.sin(0.01), Math.cos(0.01),  0, 0},
                 {0,                      0,                         1, 0},
                 {0,                      0,                         0, 1}
         };
@@ -122,9 +122,14 @@ public class Main3d {
         Matrix transform = (new Matrix(trans)).Multiply(new Matrix(pitcharr)).Multiply(new Matrix(yawarr)).Multiply(new Matrix(rollarr)).Multiply(new Matrix(transback));
 
         String newframe = "";
-        for(int i = 0; i < 100; i++) newframe += "\n";
+        for(int i = 0; i < 120; i++) newframe += "\n";
 
         PhongRenderer render = new PhongRenderer();
+
+        /*for(int j = 0; j < 100; j++)
+            for(int i = 0; i < points.length; i++){
+                points[i] = (new Vector(points[i])).MatDot(transform).vector;
+            }*/
 
         while(true){
             //System.out.print("\r" + newframe + "\r");
@@ -153,54 +158,25 @@ public class Main3d {
             Collections.sort(triangleslist, depthCompare);
             Vector[][] trianglenormals = new Vector[indices.length/3][3];
             double[][][] triangles = new double[triangleslist.size()][3][2];
+            double[][][] triangles_noproj = new double[indices.length/3][3][3];
 
             for(int j = 0; j < indices.length/3; j++) {
                 int i = indices[3*j];
                 int i1 = indices[3*j+1];
                 int i2 = indices[3*j+2];
-                //Vector centroid = (new Vector(points[i])).Add(new Vector(points[i1])).Add(new Vector(points[i2]));
-                /*Vector projected1 = cam.ProjectPoint((new Vector(points[i])).MatDot(modelMatrix));
-                Vector projected2 = cam.ProjectPoint((new Vector(points[i1])).MatDot(modelMatrix));
-                Vector projected3 = cam.ProjectPoint((new Vector(points[i2])).MatDot(modelMatrix));
-                double[] applymodel = (new Vector(points[i])).MatDot(modelMatrix).vector;*/
-
-
-                Vector projected1 = cam.ProjectPoint(triangleslist.get(j)[0]);
-                Vector projected2 = cam.ProjectPoint(triangleslist.get(j)[1]);
-                Vector projected3 = cam.ProjectPoint(triangleslist.get(j)[2]);
-                //System.out.println();
-                //System.out.println("original point: " + points[i][0] + " " + points[i][1] + " " + points[i][2]);
-                //System.out.println("after model matrix: " + applymodel[0] + " " + applymodel[1] + " " + applymodel[2]);
-                //System.out.println("projected point: " + projected1.vector[0] + " " + projected1.vector[1] + " " + projected1.vector[2] + " ");
-                int x1 = (int) (projected1.vector[0] * 60);
-                int y1 = (int) (projected1.vector[1] * 60);
-
-                int x2 = (int) (projected2.vector[0] * 60);
-                int y2 = (int) (projected2.vector[1] * 60);
-
-                int x3 = (int) (projected3.vector[0] * 60);
-                int y3 = (int) (projected3.vector[1] * 60);
-
-                c.drawLine(x1, y1, x2, y2, 3);
-                c.drawLine(x2, y2, x3, y3, 3);
-                c.drawLine(x3, y3, x1, y1, 3);
-                double[][] triangle = {
-                        {x1, y1},
-                        {x2, y2},
-                        {x3, y3}
-                };
                 Vector[] normal = {
                         new Vector(new double[]{normals[i][0], normals[i][1], normals[i][2]}),
                         new Vector(new double[]{normals[i1][0], normals[i1][1], normals[i1][2]}),
                         new Vector(new double[]{normals[i2][0], normals[i2][1], normals[i2][2]})
                 };
-                triangles[j] = triangle;
+
+                triangles_noproj[j] = new double[][]{triangleslist.get(j)[0].vector, triangleslist.get(j)[1].vector, triangleslist.get(j)[2].vector};
                 trianglenormals[j] = normal;
             }
             double[] a = {1};
             //Vector[][] normals = new Vector[triangles.length][triangles[0].length];
-            double[] lightpos = {0, 0, 0, 1};
-            c.canvas = render.RenderTriangles(triangles, trianglenormals, 60, 60, lightpos);
+            double[] lightpos = {0, 0, 30, 1};
+            c.canvas = render.RenderTriangles(triangles_noproj, trianglenormals, 60, 100, lightpos, cam);
 
             for(int i = 0; i < points.length; i++){
                 points[i] = (new Vector(points[i])).MatDot(transform).vector;
